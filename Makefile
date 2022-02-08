@@ -1,6 +1,6 @@
 CXX=g++
 RM=rm -f
-CPPFLAGS=-g -std=c++17 -D_REENTRANT -I/usr/include/SDL2
+CPPFLAGS=-g -Wall -std=c++17 -D_REENTRANT -I/usr/include/SDL2
 LDLIBS=-lSDL2 -lSDL2_ttf
 LDFLAGS=-g
 SRCS=bedside.cc

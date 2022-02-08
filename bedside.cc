@@ -1,10 +1,10 @@
 /* vim: ts=2 sw=2 et
  * Bedside main routine. */
 
-#include <ctime>
-#include <iostream>
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <ctime>
+#include <iostream>
 
 #define WIDTH 32
 #define HEIGHT 32
@@ -13,15 +13,16 @@
 #define FONT_PATH "p3x5.ttf"
 #define FONT_SIZE 5
 
-void type_text(SDL_Renderer* renderer, TTF_Font *font,
-    const char* text, int x, int y) {
-  SDL_Color textColor = { 255, 255, 255, 255 };
-  SDL_Surface* textSurface = TTF_RenderText_Solid(font, text, textColor);
-  SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+void type_text(SDL_Renderer *renderer, TTF_Font *font, const char *text, int x,
+               int y) {
+  SDL_Color textColor = {255, 255, 255, 255};
+  SDL_Surface *textSurface = TTF_RenderText_Solid(font, text, textColor);
+  SDL_Texture *textTexture =
+      SDL_CreateTextureFromSurface(renderer, textSurface);
   int text_width = textSurface->w;
   int text_height = textSurface->h;
   SDL_FreeSurface(textSurface);
-  SDL_Rect renderQuad = { x, y, text_width, text_height };
+  SDL_Rect renderQuad = {x, y, text_width, text_height};
   SDL_RenderCopy(renderer, textTexture, NULL, &renderQuad);
   SDL_DestroyTexture(textTexture);
 }
@@ -32,11 +33,10 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  SDL_Window* window;
-  SDL_Renderer* renderer;
-  if (SDL_CreateWindowAndRenderer(
-      WIDTH, HEIGHT,
-      SDL_WINDOW_SHOWN, &window, &renderer)) {
+  SDL_Window *window;
+  SDL_Renderer *renderer;
+  if (SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, SDL_WINDOW_SHOWN, &window,
+                                  &renderer)) {
     std::cerr << "Could not create window: " << SDL_GetError() << std::endl;
     return 1;
   }
@@ -65,12 +65,10 @@ int main(int argc, char *argv[]) {
 
     // Figure out what time to write, with a blinking colon.
     char time_str[6];
-    int n;
     std::time_t now = std::time(nullptr);
-    struct tm* timeinfo;
+    struct tm *timeinfo;
     timeinfo = localtime(&now);
-    n = std::strftime(time_str, 6, 
-        now % 2 == 0 ? "%I:%M" : "%I.%M", timeinfo);
+    std::strftime(time_str, 6, now % 2 == 0 ? "%I:%M" : "%I.%M", timeinfo);
 
     // Write the time somewhere
     type_text(renderer, font, time_str, 5, 5);
