@@ -24,3 +24,11 @@ It will use the project at rpi-rgb-led-matrix to provide the interface to the
 LED matrix drivers.
 
 Later on, weather forecast and voice control will be added.
+
+## Credits
+
+The
+[tiny font](https://fontstruct.com/fontstructions/show/1404325/cg-pixel-4x5-2)
+included in this repository was contributed to the public domain by Ilmari
+Karonen.
+
