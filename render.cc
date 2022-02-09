@@ -2,6 +2,8 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <chrono>
+#include <cmath>
 #include <iostream>
 
 #include "model.h"
@@ -37,10 +39,25 @@ void BedsideRenderer::draw_text_at(const char *text, int x, int y) {
   SDL_DestroyTexture(textTexture);
 }
 
-void BedsideRenderer::render() {
-  SDL_SetRenderDrawColor(this->renderer, 50, 0, 0, 255);
-  SDL_RenderClear(this->renderer);
+void BedsideRenderer::render_background() {
+  // Render a pulsating background
+  int amplitude = 50;
+  double period = 20;
+  if (this->model.getAlarmState()) {
+    amplitude = 200;
+    period = 0.5;
+  }
+  auto now = std::chrono::high_resolution_clock::now();
+  int millis = std::chrono::duration_cast<std::chrono::milliseconds>(
+                   now.time_since_epoch())
+                   .count();
+  int x = 20 + amplitude * (1 + cos(2 * M_PI * millis / (period * 1000))) / 2;
 
-  // Write the time somewhere
+  SDL_SetRenderDrawColor(this->renderer, x, 0, 0, 255);
+  SDL_RenderClear(this->renderer);
+}
+
+void BedsideRenderer::render() {
+  render_background();
   draw_text_at(this->model.getTime(), 5, 5);
 }

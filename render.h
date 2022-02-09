@@ -15,6 +15,7 @@ public:
   int init();
   void render();
   void draw_text_at(const char *text, int x, int y);
+  void render_background();
 
 private:
   SDL_Renderer *renderer;

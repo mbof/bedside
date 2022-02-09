@@ -2,6 +2,7 @@
  * Bedside main routine. */
 
 #include <SDL.h>
+#include <getopt.h>
 #include <iostream>
 
 #include "model.h"
@@ -9,12 +10,27 @@
 
 #define WIDTH 32
 #define HEIGHT 32
-#define MAX_FRAMERATE 25
+#define MAX_FRAMERATE 60
 #define MIN_TICKS_PER_FRAME (1000 / MAX_FRAMERATE)
-#define FONT_PATH "p3x5.ttf"
-#define FONT_SIZE 5
 
 int main(int argc, char *argv[]) {
+
+  int alarm_hours = 7;
+  int alarm_minutes = 0;
+  for (;;) {
+    switch (getopt(argc, argv, "h:m:")) {
+    case 'h':
+      alarm_hours = atoi(optarg);
+      continue;
+    case 'm':
+      alarm_minutes = atoi(optarg);
+      continue;
+    case -1:
+      break;
+    }
+    break;
+  }
+
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "Could not initialize sdl2: " << SDL_GetError() << std::endl;
     return 1;
@@ -29,6 +45,7 @@ int main(int argc, char *argv[]) {
   }
 
   BedsideModel model;
+  model.setAlarm(alarm_hours, alarm_minutes);
   BedsideRenderer bedsideRenderer(renderer, model);
   if (bedsideRenderer.init()) {
     return 1;
