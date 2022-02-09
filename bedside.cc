@@ -3,8 +3,9 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include <ctime>
 #include <iostream>
+
+#include "model.h"
 
 #define WIDTH 32
 #define HEIGHT 32
@@ -51,6 +52,8 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  BedsideModel model;
+
   while (true) {
     int frameStart = SDL_GetTicks();
 
@@ -63,15 +66,8 @@ int main(int argc, char *argv[]) {
     SDL_SetRenderDrawColor(renderer, 50, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    // Figure out what time to write, with a blinking colon.
-    char time_str[6];
-    std::time_t now = std::time(nullptr);
-    struct tm *timeinfo;
-    timeinfo = localtime(&now);
-    std::strftime(time_str, 6, now % 2 == 0 ? "%I:%M" : "%I.%M", timeinfo);
-
     // Write the time somewhere
-    type_text(renderer, font, time_str, 5, 5);
+    type_text(renderer, font, model.getTime(), 5, 5);
 
     SDL_RenderPresent(renderer);
 
