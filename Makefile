@@ -1,7 +1,7 @@
 CXX=g++
 RM=rm -f
 CPPFLAGS=-g -Wall -std=c++17 -D_REENTRANT -I/usr/include/SDL2
-LDLIBS=-lSDL2 -lSDL2_ttf
+LDLIBS=-lSDL2 -lSDL2_ttf -lpthread -lcpr -lcurl-d
 LDFLAGS=-g
 SRCS=bedside.cc model.cc render.cc
 OBJS=$(subst .cc,.o,$(SRCS))

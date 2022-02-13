@@ -17,14 +17,17 @@ int main(int argc, char *argv[]) {
 
   int alarm_hours = 7;
   int alarm_minutes = 0;
+  const char *weather_forecast = nullptr;
   for (;;) {
-    switch (getopt(argc, argv, "h:m:")) {
+    switch (getopt(argc, argv, "h:m:w:")) {
     case 'h':
       alarm_hours = atoi(optarg);
       continue;
     case 'm':
       alarm_minutes = atoi(optarg);
       continue;
+    case 'w':
+      weather_forecast = optarg;
     case -1:
       break;
     }
@@ -44,8 +47,9 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  BedsideModel model;
+  BedsideModel model(weather_forecast);
   model.setAlarm(alarm_hours, alarm_minutes);
+  model.refreshForecast();
   BedsideRenderer bedsideRenderer(renderer, model);
   if (bedsideRenderer.init()) {
     return 1;
