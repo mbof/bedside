@@ -1,10 +1,10 @@
 /* Bedside main routine. */
 
-#include <getopt.h>
-#include <signal.h>
-#include <iostream>
-#include <Magick++.h>
 #include "rgbmatrix/led-matrix.h"
+#include <Magick++.h>
+#include <getopt.h>
+#include <iostream>
+#include <signal.h>
 
 #include "model.h"
 #include "render.h"
@@ -16,9 +16,7 @@
 
 static bool interrupt_received = false;
 
-static void handle_interrupt(int signal) {
-  interrupt_received = true;
-}
+static void handle_interrupt(int signal) { interrupt_received = true; }
 
 int main(int argc, char *argv[]) {
 
@@ -41,6 +39,7 @@ int main(int argc, char *argv[]) {
       continue;
     case 'w':
       weather_forecast = optarg;
+      continue;
     case -1:
       break;
     }
@@ -49,12 +48,11 @@ int main(int argc, char *argv[]) {
 
   BedsideModel model(weather_forecast);
   model.setAlarm(alarm_hours, alarm_minutes);
-  model.refreshForecast();
 
   Magick::InitializeMagick(NULL);
   BedsideRenderer bedsideRenderer(model);
   if (bedsideRenderer.init()) {
-    std::cerr << "Could not initialize renderer" << std::endl;    
+    std::cerr << "Could not initialize renderer" << std::endl;
     return 1;
   }
 

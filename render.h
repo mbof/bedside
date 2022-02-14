@@ -3,16 +3,15 @@
 #ifndef RENDER_H
 #define RENDER_H
 
+#include <Magick++.h>
 #include <list>
 #include <rgbmatrix/led-matrix.h>
-#include <Magick++.h>
 
 #include "model.h"
 
 class BedsideRenderer {
 public:
-  BedsideRenderer(BedsideModel &model)
-      : model(model){};
+  BedsideRenderer(BedsideModel &model) : model(model){};
   int init();
   void render();
   void draw_text_at(const char *text, int x, int y);

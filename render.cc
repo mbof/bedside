@@ -1,10 +1,10 @@
 // vim: ts=2 sw=2 et
 
+#include <Magick++.h>
 #include <chrono>
 #include <cmath>
 #include <iostream>
 #include <list>
-#include <Magick++.h>
 
 #include "model.h"
 #include "render.h"
@@ -23,8 +23,8 @@ int BedsideRenderer::init() {
   }
 
   rgb_matrix::RuntimeOptions runtime_options;
-  matrix = rgb_matrix::RGBMatrix::CreateFromOptions(
-      matrix_options, runtime_options);
+  matrix =
+      rgb_matrix::RGBMatrix::CreateFromOptions(matrix_options, runtime_options);
   if (this->matrix == NULL) {
     std::cerr << "Could not initialize matrix." << std::endl;
     return 1;
@@ -62,9 +62,10 @@ void BedsideRenderer::render_background() {
                    .count();
   int x = 20 + amplitude * (1 + cos(2 * M_PI * millis / (period * 1000))) / 2;
 
-  int red = 107 * x / 255;
-  int green = 255 * x / 255;
-  int blue = 235 * x / 255;
+  int red, green, blue;
+  red = 107 * x / 255;
+  green = 255 * x / 255;
+  blue = 235 * x / 255;
   this->image.backgroundColor(Magick::Color(red, green, blue));
   this->image.erase();
 }
@@ -73,10 +74,8 @@ void BedsideRenderer::copy_to_canvas() {
   for (size_t y = 0; y < 32; y++) {
     for (size_t x = 0; x < 32; x++) {
       const Magick::Color &c = this->image.pixelColor(x, y);
-      this->canvas->SetPixel(x, y,
-          c.redQuantum(),
-          c.greenQuantum(),
-          c.blueQuantum());
+      this->canvas->SetPixel(x, y, c.redQuantum(), c.greenQuantum(),
+                             c.blueQuantum());
     }
   }
 }
@@ -84,11 +83,10 @@ void BedsideRenderer::copy_to_canvas() {
 void BedsideRenderer::render() {
   render_background();
   draw_text_at(model.getTime(), 8, 6);
+  draw_text_at(model.getTemperature(), 4, 12);
   image.draw(draw_ops);
   copy_to_canvas();
   draw_ops.clear();
 }
 
-void BedsideRenderer::vsync() {
-  matrix->SwapOnVSync(canvas);
-}
+void BedsideRenderer::vsync() { matrix->SwapOnVSync(canvas); }
