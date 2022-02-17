@@ -1,8 +1,8 @@
 CXX=g++
 RM=rm -f
-CPPFLAGS=-g -Wall -std=c++17 -D_REENTRANT 
+CPPFLAGS=-O3 -Wall -std=c++17 -D_REENTRANT 
 LDLIBS=-lcpr -lrgbmatrix -lMagick++ -lpthread
-LDFLAGS=-g
+LDFLAGS=
 SRCS=bedside.cc model.cc render.cc
 OBJS=$(subst .cc,.o,$(SRCS))
 
