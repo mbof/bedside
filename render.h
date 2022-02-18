@@ -4,6 +4,7 @@
 #define RENDER_H
 
 #include <Magick++.h>
+#include <future>
 #include <list>
 #include <rgbmatrix/led-matrix.h>
 
@@ -27,6 +28,7 @@ private:
   Magick::Image image;
   std::list<Magick::Drawable> draw_ops;
   BedsideModel &model;
+  std::future<void> audio_playback_future;
 };
 
 #endif

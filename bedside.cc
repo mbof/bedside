@@ -6,6 +6,7 @@
 #include <iostream>
 #include <rgbmatrix/led-matrix.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <thread>
 
 #include "model.h"
@@ -29,10 +30,11 @@ int main(int argc, char *argv[]) {
   int alarm_hours = 7;
   int alarm_minutes = 0;
   const char *weather_forecast = nullptr;
+  const char *alarm_sound_file = nullptr;
 
   // Parse command line options
   for (;;) {
-    switch (getopt(argc, argv, "h:m:w:")) {
+    switch (getopt(argc, argv, "h:m:w:a:")) {
     case 'h':
       alarm_hours = atoi(optarg);
       continue;
@@ -41,6 +43,9 @@ int main(int argc, char *argv[]) {
       continue;
     case 'w':
       weather_forecast = optarg;
+      continue;
+    case 'a':
+      setenv("ALARM_SOUND_FILE", optarg, 1);
       continue;
     case -1:
       break;
