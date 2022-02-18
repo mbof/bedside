@@ -30,7 +30,6 @@ int main(int argc, char *argv[]) {
   int alarm_hours = 7;
   int alarm_minutes = 0;
   const char *weather_forecast = nullptr;
-  const char *alarm_sound_file = nullptr;
 
   // Parse command line options
   for (;;) {
