@@ -80,8 +80,6 @@ int BedsideModel::getAlarmState() {
   std::time_t now = std::time(nullptr);
   double diff = difftime(now, this->alarm_time);
   if (diff > 0 && diff < 10 * 60) {
-    // Ring for 10 minutes (600 seconds) after the alarm time.
-    std::cerr << "." << std::endl;
     return 1;
   }
   return 0;
