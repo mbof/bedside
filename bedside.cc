@@ -58,24 +58,12 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  int frame = 0;
-  std::chrono::time_point t0 = std::chrono::system_clock::now();
   while (!interrupt_received) {
     std::chrono::time_point t1 = std::chrono::system_clock::now();
     bedsideRenderer.render();
     bedsideRenderer.vsync();
-    frame += 1;
     std::this_thread::sleep_until(t1 +
                                   std::chrono::milliseconds{MIN_MS_PER_FRAME});
-    std::chrono::time_point t2 = std::chrono::system_clock::now();
-    int t0_t2_ms =
-        std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t0).count();
-    if (t0_t2_ms > 5000) {
-      std::cerr << "Framerate: " << ((double)frame / (t0_t2_ms / 1000.0))
-                << std::endl;
-      t0 = t2;
-      frame = 0;
-    }
   }
 
   return 0;
