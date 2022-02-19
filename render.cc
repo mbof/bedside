@@ -18,7 +18,7 @@ int BedsideRenderer::init() {
 
   rgb_matrix::RGBMatrix::Options matrix_options;
   matrix_options.hardware_mapping = "adafruit-hat";
-  matrix_options.disable_hardware_pulsing = true;
+  matrix_options.disable_hardware_pulsing = false;
   if (!matrix_options.Validate(NULL)) {
     std::cerr << "Invalid options." << std::endl;
     return 1;
@@ -86,19 +86,18 @@ void BedsideRenderer::copy_to_canvas() {
 void BedsideRenderer::render() {
   // graphics
   render_background();
-  draw_text_at(model.getTime(), 8, 6);
+  draw_text_at(model.getTime(), 3, 6);
   draw_text_at(model.getTemperature(), 4, 12);
   image.draw(draw_ops);
   copy_to_canvas();
   draw_ops.clear();
 
-  // audio 
-  if (this->model.getAlarmState()) {
+  // audio
+  if (this->model.getAlarmState() == 1) {
     if (!this->audio_playback_future.valid()) {
-    this->audio_playback_future = std::async([this](){
-          std::system("/usr/bin/mpg321 \"${ALARM_SOUND_FILE}\"" );
-          this->audio_playback_future = std::future<void>{};
-        });
+      this->model.acknowledgeAlarm();
+      this->audio_playback_future = std::async(
+          []() { std::system("/usr/bin/mpg321 \"${ALARM_SOUND_FILE}\""); });
     }
   }
 }

@@ -25,7 +25,8 @@ char *BedsideModel::getTime() {
   std::time_t now = std::time(nullptr);
   struct tm *timeinfo;
   timeinfo = localtime(&now);
-  std::strftime(this->time_str, 6, now % 2 == 0 ? "%I:%M" : "%I.%M", timeinfo);
+  std::strftime(this->time_str, 8, now % 2 == 0 ? "%I:%M%p" : "%I.%M%p",
+                timeinfo);
   return this->time_str;
 }
 
@@ -68,6 +69,10 @@ void BedsideModel::setAlarm(int hours, int minutes) {
   std::cerr << "Alarm set for " << hours << ":" << minutes << std::endl;
 }
 
+void BedsideModel::acknowledgeAlarm() {
+  this->alarm_acknowledged_time = std::time(nullptr);
+}
+
 void BedsideModel::dismissAlarm() {
   this->alarm_dismissed_time = std::time(nullptr);
 }
@@ -80,6 +85,9 @@ int BedsideModel::getAlarmState() {
   std::time_t now = std::time(nullptr);
   double diff = difftime(now, this->alarm_time);
   if (diff > 0 && diff < 10 * 60) {
+    if (this->alarm_time <= this->alarm_acknowledged_time) {
+      return 2;
+    }
     return 1;
   }
   return 0;

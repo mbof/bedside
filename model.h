@@ -14,17 +14,19 @@ public:
   char *getTemperature();
   void setAlarm(int hours, int minutes);
   void dismissAlarm();
+  void acknowledgeAlarm();
   int getAlarmState();
   void refreshForecast();
   void maybeRefreshForecast();
 
 private:
-  char time_str[6];
+  char time_str[8];
   char temp_str[12];
   int alarm_hours = 0;
   int alarm_minutes = 0;
   std::time_t alarm_time = 0;
   std::time_t alarm_dismissed_time = 0;
+  std::time_t alarm_acknowledged_time = 0;
   int forecast_low = 0;
   int forecast_high = 0;
   std::time_t forecast_fetch_time = 0;
