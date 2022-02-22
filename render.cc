@@ -68,8 +68,8 @@ void BedsideRenderer::render_background() {
       float theta = 2 * M_PI * millis / (period * 1000);
       float dx = (x - 15.5) / 23;
       float dy = (y - 15.5) / 23;
-      float dx2 = dx * sin(theta) + dy * cos(theta);
-      float dy2 = -dx * cos(theta) + dy * sin(theta);
+      float dx2 = dx * sin(theta) - dy * cos(theta);
+      float dy2 = dx * cos(theta) + dy * sin(theta);
       draw_ops.push_back(Magick::DrawableFillColor(
           Magick::Color((dx2 + 1) * amplitude, (dy2 + 1) * amplitude,
                         (2 - dx2 - dy2) * amplitude / 2)));
