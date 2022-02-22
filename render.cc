@@ -17,7 +17,7 @@
 int BedsideRenderer::init() {
 
   rgb_matrix::RGBMatrix::Options matrix_options;
-  matrix_options.hardware_mapping = "adafruit-hat";
+  matrix_options.hardware_mapping = "adafruit-hat-pwm";
   matrix_options.disable_hardware_pulsing = false;
   if (!matrix_options.Validate(NULL)) {
     std::cerr << "Invalid options." << std::endl;
@@ -53,24 +53,29 @@ void BedsideRenderer::draw_text_at(const char *text, int x, int y) {
 
 void BedsideRenderer::render_background() {
   // Render a pulsating background
-  int amplitude = 50;
+  int amplitude = 80;
   double period = 20;
   if (this->model.getAlarmState()) {
-    amplitude = 200;
+    amplitude = 128;
     period = 0.5;
   }
   auto now = std::chrono::high_resolution_clock::now();
   int millis = std::chrono::duration_cast<std::chrono::milliseconds>(
                    now.time_since_epoch())
                    .count();
-  int x = 20 + amplitude * (1 + cos(2 * M_PI * millis / (period * 1000))) / 2;
-
-  int red, green, blue;
-  red = 255 * x / 255;
-  green = 226 * x / 255;
-  blue = 38 * x / 255;
-  this->image.backgroundColor(Magick::Color(red, green, blue));
-  this->image.erase();
+  for (size_t x = 0; x < 32; x++) {
+    for (size_t y = 0; y < 32; y++) {
+      float theta = 2 * M_PI * millis / (period * 1000);
+      float dx = (x - 15.5) / 23;
+      float dy = (y - 15.5) / 23;
+      float dx2 = dx * sin(theta) + dy * cos(theta);
+      float dy2 = -dx * cos(theta) + dy * sin(theta);
+      draw_ops.push_back(Magick::DrawableFillColor(
+          Magick::Color((dx2 + 1) * amplitude, (dy2 + 1) * amplitude,
+                        (2 - dx2 - dy2) * amplitude / 2)));
+      draw_ops.push_back(Magick::DrawablePoint(x, y));
+    }
+  }
 }
 
 void BedsideRenderer::copy_to_canvas() {
@@ -88,6 +93,7 @@ void BedsideRenderer::render() {
   render_background();
   draw_text_at(model.getTime(), 3, 6);
   draw_text_at(model.getTemperature(), 4, 12);
+  draw_text_at(model.getMotd(), 2, 18);
   image.draw(draw_ops);
   copy_to_canvas();
   draw_ops.clear();

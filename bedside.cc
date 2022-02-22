@@ -30,10 +30,11 @@ int main(int argc, char *argv[]) {
   int alarm_hours = 7;
   int alarm_minutes = 0;
   const char *weather_forecast = nullptr;
+  const char *motd = ":-)";
 
   // Parse command line options
   for (;;) {
-    switch (getopt(argc, argv, "h:m:w:a:")) {
+    switch (getopt(argc, argv, "h:m:w:a:t:")) {
     case 'h':
       alarm_hours = atoi(optarg);
       continue;
@@ -46,13 +47,16 @@ int main(int argc, char *argv[]) {
     case 'a':
       setenv("ALARM_SOUND_FILE", optarg, 1);
       continue;
+    case 't':
+      motd = optarg;
+      continue;
     case -1:
       break;
     }
     break;
   }
 
-  BedsideModel model(weather_forecast);
+  BedsideModel model(weather_forecast, motd);
   model.setAlarm(alarm_hours, alarm_minutes);
 
   Magick::InitializeMagick(NULL);

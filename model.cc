@@ -132,3 +132,5 @@ void BedsideModel::refreshForecast() {
       // https://github.com/weather-gov/api/discussions/492
       cpr::Header{{"Feature-Flags", std::to_string(std::time(nullptr))}});
 }
+
+const char *BedsideModel::getMotd() { return motd; }
