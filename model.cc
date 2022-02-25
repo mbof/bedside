@@ -127,10 +127,7 @@ void BedsideModel::refreshForecast() {
         this->forecast_fetch_time = std::time(nullptr);
         return 0;
       },
-      cpr::Url{this->forecast_url},
-      // The following header is added as workaround to
-      // https://github.com/weather-gov/api/discussions/492
-      cpr::Header{{"Feature-Flags", std::to_string(std::time(nullptr))}});
+      cpr::Url{this->forecast_url});
 }
 
 const char *BedsideModel::getMotd() { return motd; }
