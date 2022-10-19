@@ -6,11 +6,11 @@
 #include <ctime>
 #include <future>
 #include <string>
+#include <vector>
 
 class BedsideModel {
 public:
-  BedsideModel(const char *forecast_url, const char *motd)
-      : forecast_url(forecast_url), motd(motd){};
+  BedsideModel(const char *forecast_url, const char *motd);
   char *getTime();
   char *getTemperature();
   void setAlarm(int hours, int minutes);
@@ -19,7 +19,7 @@ public:
   int getAlarmState();
   void refreshForecast();
   void maybeRefreshForecast();
-  const char *getMotd();
+  std::string getMotd();
 
 private:
   char time_str[8];
@@ -35,6 +35,7 @@ private:
   std::future<int> forecast_request_future;
   const char *forecast_url;
   const char *motd;
+  std::vector<std::string> motds;
 };
 
 #endif

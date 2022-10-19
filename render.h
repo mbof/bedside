@@ -29,6 +29,7 @@ private:
   std::list<Magick::Drawable> draw_ops;
   BedsideModel &model;
   std::future<void> audio_playback_future;
+  int frame = 0;
 };
 
 #endif

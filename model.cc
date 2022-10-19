@@ -21,6 +21,16 @@ using json = nlohmann::json;
 
 std::chrono::seconds zero_seconds{0};
 
+BedsideModel::BedsideModel(const char *forecast_url, const char *motd)
+    : forecast_url(forecast_url), motd(motd) {
+  std::stringstream motd_ss(motd);
+  std::string motd_i;
+  while (std::getline(motd_ss, motd_i, ',')) {
+    std::cerr << "Got message " << motd_i << std::endl;
+    motds.push_back(motd_i);
+  }
+};
+
 char *BedsideModel::getTime() {
   std::time_t now = std::time(nullptr);
   struct tm *timeinfo;
@@ -130,4 +140,8 @@ void BedsideModel::refreshForecast() {
       cpr::Url{this->forecast_url});
 }
 
-const char *BedsideModel::getMotd() { return motd; }
+std::string BedsideModel::getMotd() {
+  std::time_t now = std::time(nullptr);
+  int i = (now / 5) % motds.size();
+  return motds[i];
+}

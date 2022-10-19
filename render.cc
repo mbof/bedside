@@ -45,7 +45,7 @@ int BedsideRenderer::init() {
 }
 
 void BedsideRenderer::draw_text_at(const char *text, int x, int y) {
-  draw_ops.push_back(Magick::DrawableFillColor(Magick::Color(255, 255, 255)));
+  draw_ops.push_back(Magick::DrawableFillColor(Magick::Color(120, 120, 120)));
   draw_ops.push_back(this->font);
   draw_ops.push_back(this->point_size);
   draw_ops.push_back(Magick::DrawableText(x, y, text));
@@ -53,7 +53,7 @@ void BedsideRenderer::draw_text_at(const char *text, int x, int y) {
 
 void BedsideRenderer::render_background() {
   // Render a pulsating background
-  int amplitude = 80;
+  int amplitude = 20;
   double period = 20;
   if (this->model.getAlarmState()) {
     amplitude = 128;
@@ -93,7 +93,7 @@ void BedsideRenderer::render() {
   render_background();
   draw_text_at(model.getTime(), 3, 6);
   draw_text_at(model.getTemperature(), 4, 12);
-  draw_text_at(model.getMotd(), 2, 18);
+  draw_text_at(model.getMotd().c_str(), 2, 18);
   image.draw(draw_ops);
   copy_to_canvas();
   draw_ops.clear();
@@ -108,4 +108,7 @@ void BedsideRenderer::render() {
   }
 }
 
-void BedsideRenderer::vsync() { matrix->SwapOnVSync(canvas); }
+void BedsideRenderer::vsync() {
+  frame++;
+  matrix->SwapOnVSync(canvas);
+}
