@@ -2,8 +2,8 @@
 
 ## Background
 
-Bedside is an alarm clock and "morning companion". Its aim is to support a
-connected device, placed bedside, that fulfills the following jobs:
+Bedside is an alarm clock and "morning companion". It is a connected
+device, placed bedside, that fulfills the following jobs:
 * Provide time of day and calendar information
 * Make noise and lights to wake the user up
 * Help with a morning routine by providing information such as weather
@@ -14,16 +14,15 @@ The target user interface is:
 * Voice command for setting the time and alarm (mic + activation button)
 * A speaker
 
-## Proof of concept
+## Current capabilities
 
-The initial version will:
-* Display the time
-* Wake up weekdays at 7AM
+The current version:
+* Displays the time
+* Displays upcoming weather temperatures
+* Wakes up every day at a fixed time of day (e.g. every day at 7am)
 
-It will use the project at rpi-rgb-led-matrix to provide the interface to the
-LED matrix drivers.
-
-Later on, weather forecast and voice control will be added.
+It uses the project at rpi-rgb-led-matrix to provide the interface to the LED
+matrix drivers.
 
 ## Credits
 
@@ -31,4 +30,3 @@ The
 [tiny font](https://fontstruct.com/fontstructions/show/1404325/cg-pixel-4x5-2)
 included in this repository was contributed to the public domain by Ilmari
 Karonen.
-
