@@ -3,15 +3,15 @@
 ## Background
 
 Bedside is an alarm clock and "morning companion". It is a connected
-device, placed bedside, that fulfills the following jobs:
-* Provide time of day and calendar information
+device based on the Raspberry Pi platform, placed bedside, that fulfills
+the following jobs:
+* Provide time of day
 * Make noise and lights to wake the user up
 * Help with a morning routine by providing information such as weather
   forecast
 
 The target user interface is:
-* A relatively low-resolution LED matrix (32x32)
-* Voice command for setting the time and alarm (mic + activation button)
+* An LED matrix (32x32)
 * A speaker
 
 ## Current capabilities
